@@ -1,5 +1,6 @@
 package com.hexaware.cricket.service;
 
+import com.hexaware.cricket.dto.StatePlayerCountDto;
 import com.hexaware.cricket.entity.Player;
 import com.hexaware.cricket.repository.PlayerRepository;
 import com.hexaware.cricket.exception.PlayerNotFoundException;
@@ -56,4 +57,10 @@ public class PlayerServiceImpl implements IPlayerService {
         playerRepository.delete(player);
         return "Player deleted successfully with ID: " + playerId;
     }
+    
+    @Override
+    public List<StatePlayerCountDto> getPlayerCountByState() {
+        return playerRepository.countPlayersByState();
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.hexaware.cricket.dto;
 
+
 import jakarta.validation.constraints.*;
 
 public class PlayerDto {
@@ -15,8 +16,10 @@ public class PlayerDto {
     private Integer jerseyNumber;
 
     @NotBlank(message = "Role is required")
-    private String role; // e.g., Batsman, Bowler, Keeper, All Rounder
-
+    @Pattern(regexp = "Batsman|Bowler|Keeper|All Rounder", 
+             message = "Role must be one of: Batsman, Bowler, Keeper, All Rounder")
+    private String role;
+    
     @NotNull(message = "Total matches is required")
     @Min(value = 0, message = "Total matches cannot be negative")
     private Integer totalMatches;

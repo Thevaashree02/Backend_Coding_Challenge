@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.hexaware.cricket.dto.StatePlayerCountDto;
 import com.hexaware.cricket.entity.Player;
 import com.hexaware.cricket.service.IPlayerService;
 
@@ -40,4 +41,11 @@ public class PlayerController {
     public ResponseEntity<String> deletePlayer(@PathVariable Long playerId) {
         return new ResponseEntity<>(service.deletePlayerById(playerId), HttpStatus.OK);
     }
+    
+    @GetMapping("/state-player-count")
+    public ResponseEntity<List<StatePlayerCountDto>> getPlayerCountByState() {
+        List<StatePlayerCountDto> result = service.getPlayerCountByState();
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 }

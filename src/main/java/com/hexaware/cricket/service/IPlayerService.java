@@ -1,5 +1,6 @@
 package com.hexaware.cricket.service;
 
+import com.hexaware.cricket.dto.StatePlayerCountDto;
 import com.hexaware.cricket.entity.Player;
 import java.util.List;
 
@@ -9,4 +10,6 @@ public interface IPlayerService {
     Player addPlayer(Player player);
     Player updatePlayer(Long playerId, Player updatedPlayer);
     String deletePlayerById(Long playerId);
+    List<StatePlayerCountDto> getPlayerCountByState();
+
 }
