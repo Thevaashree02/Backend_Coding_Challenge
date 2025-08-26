@@ -10,6 +10,7 @@ import com.hexaware.cricket.dto.StatePlayerCountDto;
 import com.hexaware.cricket.entity.Player;
 import com.hexaware.cricket.service.IPlayerService;
 
+@CrossOrigin(origins = "http://localhost:5173/")
 @RestController
 @RequestMapping("/api/players")
 public class PlayerController {
@@ -33,9 +34,36 @@ public class PlayerController {
     }
 
     @PutMapping("/{playerId}")
-    public ResponseEntity<Player> updatePlayer(@PathVariable Long playerId, @RequestBody Player player) {
-        return new ResponseEntity<>(service.updatePlayer(playerId, player), HttpStatus.OK);
+    public ResponseEntity<Player> updatePlayer(@PathVariable Long playerId, @RequestBody Player updatedPlayer) {
+        Player existingPlayer = service.getPlayerById(playerId);
+
+        // Only update non-null / non-empty fields
+        if (updatedPlayer.getPlayerName() != null && !updatedPlayer.getPlayerName().isEmpty()) {
+            existingPlayer.setPlayerName(updatedPlayer.getPlayerName());
+        }
+        if (updatedPlayer.getRole() != null && !updatedPlayer.getRole().isEmpty()) {
+            existingPlayer.setRole(updatedPlayer.getRole());
+        }
+        if (updatedPlayer.getJerseyNumber() != null) {
+            existingPlayer.setJerseyNumber(updatedPlayer.getJerseyNumber());
+        }
+        if (updatedPlayer.getDescription() != null && !updatedPlayer.getDescription().isEmpty()) {
+            existingPlayer.setDescription(updatedPlayer.getDescription());
+        }
+        if (updatedPlayer.getStateName() != null && !updatedPlayer.getStateName().isEmpty()) {
+            existingPlayer.setStateName(updatedPlayer.getStateName());
+        }
+        if (updatedPlayer.getTeamName() != null && !updatedPlayer.getTeamName().isEmpty()) {
+            existingPlayer.setTeamName(updatedPlayer.getTeamName());
+        }
+        if (updatedPlayer.getTotalMatches() != null) {
+            existingPlayer.setTotalMatches(updatedPlayer.getTotalMatches());
+        }
+
+        Player savedPlayer = service.addPlayer(existingPlayer); // reusing addPlayer() for save
+        return new ResponseEntity<>(savedPlayer, HttpStatus.OK);
     }
+
 
     @DeleteMapping("/{playerId}")
     public ResponseEntity<String> deletePlayer(@PathVariable Long playerId) {
@@ -49,3 +77,9 @@ public class PlayerController {
     }
 
 }
+
+/*
+    @PutMapping("/{playerId}")
+    public ResponseEntity<Player> updatePlayer(@PathVariable Long playerId, @RequestBody Player player) {
+        return new ResponseEntity<>(service.updatePlayer(playerId, player), HttpStatus.OK);
+    } */
